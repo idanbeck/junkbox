@@ -1,6 +1,6 @@
 
 # deploy vim
-exec ./deploy-vim.sh
+./deploy-vim.sh
 
 # deploy tmux
-exec ./deploy-tmux.sh
+./deploy-tmux.sh
