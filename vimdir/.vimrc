@@ -1,9 +1,9 @@
 " Launch Config
-call pathogen#infect()                      " use pathogen
-call pathogen#runtime_append_all_bundles()  " use pathogen
+" call pathogen#infect()                      " use pathogen
+" call pathogen#runtime_append_all_bundles()  " use pathogen
 
 " Colors
-colorscheme badwolf
+colorscheme desert 
 
 " syntax
 syntax enable
