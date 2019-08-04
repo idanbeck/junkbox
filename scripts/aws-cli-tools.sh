@@ -2,7 +2,7 @@
 
 usage()
 {
-	echo "fastai-instance <command> -i <instanceID> -u <username> -p <pem file>"
+	echo "aws-cli-tools  <command> -i <instanceID> -u <username> -p <pem file>"
 	echo "Commands"
 	echo "start - Starts the given instance ID"
 	echo "stop - Stops the given instance ID"
