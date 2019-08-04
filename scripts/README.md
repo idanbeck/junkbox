@@ -16,10 +16,38 @@ connect - Will connect over SSH to the instance ID and map port 8888 to localhos
 
 ### Examples
 
-./aws-cli-tools.sh connect -i <instance id> -p <pem file> -x -s
+`./aws-cli-tools.sh connect -i <instance id> -p <pem file> -x -s`
 
 This will connect to the instance ID only after it has been started and is running.  This will also test to ensure that the instance is not stopping, and will wait until the instance is stopped before running.  The -x modifier will also stop the instance as soon as you exit the ssh session (although I don't think it will do this if you exit the terminal). 
 
+`./aws-cli-tools.sh start -i <instance id>`
+
+Will start the instance if the ID exists in AWS EC2
+
+`./aws-cli-tools.sh stop -u <instance id>`
+
+Will stop the instance if the ID exists in AWS EC2
+
 ### Requirements 
 
-Needs to have aws command line tools and jq installed
+Needs to have jq and aws command line tools installed and configured 
+
+#### jq
+
+Installation: https://github.com/stedolan/jq/wiki/Installation
+
+#### AWS CLI tools
+
+Installation: https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html
+
+Configuration: https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html
+
+To configure AWS CLI make sure you have set up an IAM user.  Then you will need to configure AWS CLI tools before running the script as follows (example from above guide): 
+
+```
+$ aws configure
+AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
+AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+Default region name [None]: us-west-2
+Default output format [None]: json
+```
