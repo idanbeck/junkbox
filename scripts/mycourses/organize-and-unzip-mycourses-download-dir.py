@@ -39,6 +39,11 @@ def usage():
 	This will unpack a directory as given by MyCourses into a set of 
 	directories by student name containing all files provided, and those
 	respectively unpacked into folders
+
+	Dependencies: 
+	sudo apt-get install p7zip-full
+	pip3 install patool
+	pip3 install pyunpack
 	"""
 	print(strUsage)
 	sys.exit(0)
