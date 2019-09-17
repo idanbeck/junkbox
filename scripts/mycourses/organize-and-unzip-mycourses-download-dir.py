@@ -8,6 +8,7 @@ import re
 import json
 import shutil
 from pyunpack import Archive
+import patoolib
 
 from contextlib import contextmanager
 import pip
@@ -99,9 +100,11 @@ if(CheckDirectory(strGradingDirectoryPath) == False):
 # if not provided, will just use name
 if(strArchiveName):
 	# find in dir
+	strFileName = ""
 	root, dirs, files = next(os.walk(strGradingDirectoryPath))
-	for strFileName in files:
-		if(strFileName.find(strArchiveName) != -1):
+	for fileName in files:
+		if(fileName.find(strArchiveName) != -1):
+			strFileName = fileName
 			break
 
 	print("Archive %s found so lets unarchive it\n" % strFileName)
@@ -131,11 +134,17 @@ if(not strName):
 	print("Exercise name folder string not provided\n")
 	usage()
 
+strDirName = ""
 # Validated the directory, find the exercise directory 
 root, dirs, files = next(os.walk(strGradingDirectoryPath))
-for strDirName in dirs:
-	if(strDirName.find(strName) != -1):
+for dirName in dirs:
+	if(dirName.find(strName) != -1):
+		strDirName=dirName
 		break
+
+if(not strDirName):
+	print("Exercise name folder with identifier %s not found" % strName)
+	sys.exit(2)
 
 strNamedPath = strGradingDirectoryPath + strDirName
 if(CheckDirectory(strNamedPath) == False):
