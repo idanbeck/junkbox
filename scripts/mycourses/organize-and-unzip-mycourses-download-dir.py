@@ -60,8 +60,8 @@ fullCmdArguments = sys.argv
 
 argumentList = fullCmdArguments[1:]
 
-unixOptions = "hd:n:"
-gnuOptions = ["help", "directory=", "name="]
+unixOptions = "hd:n:a:x"
+gnuOptions = ["help", "directory=", "name=", "archive="]
 
 try:
 	arguments, values = getopt.getopt(argumentList, unixOptions, gnuOptions)
@@ -72,6 +72,8 @@ except getopt.error as err:
 
 strGradingDirectoryPath = ""
 strName = ""
+strArchiveName = ""
+fDeleteArchive = False
 
 # Evaluate the options
 for currentArgument, currentValue in arguments:
@@ -81,17 +83,52 @@ for currentArgument, currentValue in arguments:
 		strGradingDirectoryPath = currentValue
 	elif currentArgument in ("-n", "--name"):
 		strName = currentValue
+	elif currentArgument in ("-x"):
+		strName = currentValue
+	elif currentArgument in ("-a", "--archive"):
+		strArchiveName = currentValue
 
 if(not strGradingDirectoryPath):
 	print("Directory path not provided\n")
 	usage()
 
-if(not strName):
-	print("Exercise name not provided\n")
-	usage()
-
 if(CheckDirectory(strGradingDirectoryPath) == False):
 	print("%s is not a valid directory on file system" % strGradingDirectoryPath)
+	usage()
+
+# if not provided, will just use name
+if(strArchiveName):
+	# find in dir
+	root, dirs, files = next(os.walk(strGradingDirectoryPath))
+	for strFileName in files:
+		if(strFileName.find(strArchiveName) != -1):
+			break
+
+	print("Archive %s found so lets unarchive it\n" % strFileName)
+	strArchiveFilePath = os.path.join(strGradingDirectoryPath, strFileName)
+	if(CheckFileExists(strArchiveFilePath) == False):
+		print("Error: %s not found" % strArchiveFilePath)
+		sys.exit(2)
+
+	strArchiveFolderName = os.path.splitext(strFileName)[0]
+	strArchiveFolderName = os.path.join(strGradingDirectoryPath, strArchiveFolderName)
+	print("Creating folder %s" % strArchiveFolderName)
+	dirMode = 0o666
+	os.mkdir(strArchiveFolderName, dirMode)
+
+	print("Extracting %s to\n %s" % (strArchiveFilePath, strArchiveFolderName))
+	Archive(strArchiveFilePath).extractall(strArchiveFolderName)
+	
+	if(fDeleteArchive == True):
+		os.remove(strArchiveFilePath)
+		print("Extrated and deleted %s " % strArchiveFilePath)
+	else:
+		print("Extrated %s " % strArchiveFilePath)
+
+	strName = strArchiveName
+
+if(not strName):
+	print("Exercise name folder string not provided\n")
 	usage()
 
 # Validated the directory, find the exercise directory 
