@@ -232,8 +232,12 @@ for studentName in students:
 
 			print("Extracting %s to\n %s" % (strFileName, strFileArchivePath))
 			Archive(destFilePath).extractall(strFileArchivePath)
-			os.remove(destFilePath)
-			print("Extrated %s and deleted" % strFileName)
+			
+			if(fDeleteArchive == True):
+				os.remove(destFilePath)
+				print("Extrated %s and deleted" % strFileName)
+			else:
+				print("Extrated %s" % strFileName)
 
 # Done
 print("Done!")
