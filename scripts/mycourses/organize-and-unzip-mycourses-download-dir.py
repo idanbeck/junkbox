@@ -90,7 +90,7 @@ for currentArgument, currentValue in arguments:
 	elif currentArgument in ("-n", "--name"):
 		strName = currentValue
 	elif currentArgument in ("-x"):
-		strName = currentValue
+		fDeleteArchive = True
 	elif currentArgument in ("-a", "--archive"):
 		strArchiveName = currentValue
 
