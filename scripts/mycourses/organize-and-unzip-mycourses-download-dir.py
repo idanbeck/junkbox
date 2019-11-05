@@ -44,6 +44,12 @@ def usage():
 	sudo apt-get install p7zip-full
 	pip3 install patool
 	pip3 install pyunpack
+	
+	-d directory to find archive or project directory
+	-n name keyword to find project directory
+	-a name keyword to find project archive
+	-x flag will delete archives after extracted
+	-h will display this usage guide
 	"""
 	print(strUsage)
 	sys.exit(0)
@@ -161,7 +167,7 @@ print("Found and entering %s - files:" % strNamedPath)
 root, dirs, files = next(os.walk(strNamedPath))
 for fileName in files:
 	#print(fileName)
-	regexProgram = re.compile(r'\d+-\d+ - ([\w-]+, \w+)')
+	regexProgram = re.compile(r'\d+-\d+ - ([\w-]+[\w ]*, \w+[\w ]*)')
 	result = regexProgram.match(fileName)
 	if result:
 		#print(result.group(1))
