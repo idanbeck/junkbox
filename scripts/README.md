@@ -5,7 +5,7 @@
 Finally spurred on by the https://www.fast.ai/ course and general deep learning, this script allows for easier manipulation of AWS instances. Below is the usage doc:
 
 ### Usage
-aws-cli-tools <command> -i <instanceID> -u <username> -p <pem file>
+`aws-cli-tools <command> -i <instanceID> -u <username> -p <pem file>`
 
 ### Commands
 start - Starts the given instance ID

@@ -15,12 +15,14 @@ usage()
 if ! [ -x "$(command -v jq)" ]
 then
 	echo "jq not installed - please install before using"
+	echo "suggested: sudo apt-get install"
 	exit
 fi
 
 if ! [ -x "$(command -v aws)" ]
 then
 	echo "aws command line tools not installed - please install before using"
+	echo "suggested: sudo apt-get install awscli"
 	exit
 fi
 
