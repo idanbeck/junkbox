@@ -12,6 +12,8 @@ class App extends Component {
         </div>
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload sdf
+
+          Based on <a href="https://mherman.org/blog/dockerizing-a-react-app/">https://mherman.org/blog/dockerizing-a-react-app/</a>
         </p>
       </div>
     );
