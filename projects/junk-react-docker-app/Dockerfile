@@ -11,8 +11,8 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json /app/package.json
 
 # install deps
-RUN npm install react-scripts --global
-RUN npm install
+RUN npm install --silent
+RUN npm install react-scripts --global --silent
 
 # start app
 CMD ["npm", "start"]
