@@ -9,6 +9,7 @@ alignas (8) struct mystruct {
 int main(int argc, char *argv[]) {
 	struct mystruct t;
 	printf("sizeof mystruct: %d sizeof t: %d\n", sizeof(struct mystruct), sizeof(t));
+	printf("sizeof t.c: %d\n", sizeof(t.c));
 
 	return 0;
 }
