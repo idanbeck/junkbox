@@ -1,0 +1,7 @@
+[package]
+name = "chap7"
+version = "0.1.0"
+authors = ["Idan Beck <idanbeck@gmail.com>"]
+edition = "2018"
+
+[dependencies]
