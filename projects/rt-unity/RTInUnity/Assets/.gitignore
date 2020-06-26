@@ -1,0 +1,4 @@
+
+# Don't include these massive hdr files
+*.hdr
+*.hdr.meta

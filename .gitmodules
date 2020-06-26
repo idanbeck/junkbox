@@ -1,3 +1,6 @@
 [submodule "third_party/spdlog"]
 	path = third_party/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "study/cs231n/gcloud"]
+	path = study/cs231n/gcloud
+	url = https://github.com/cs231n/gcloud.git
