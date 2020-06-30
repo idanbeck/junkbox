@@ -76,6 +76,78 @@ float SmoothnessToPhongAlpha(float s) {
     return pow(1000.0f, s * s);
 }
 
+static const float EPSILON = 1e-8;
+/*
+// Moller-Trumbore Intersection implementation
+bool IntersectTriangle_MT97(Ray r, float3 v0, float3 v1, float3 v2,
+    inout float t, inout float u, inout float v)
+{
+    float3 E1 = v1 - v0;
+    float3 E2 = v2 - v0;
+
+    float3 P = cross(r.vDirection, E2);
+
+    // Determinant
+    float det = dot(E1, P);
+    // Backface culling
+    if (det < EPSILON)
+        return false;
+    float inv_det = 1.0f / det;
+
+    // Distance from v0 to ray origin
+    float3 T = r.ptOrigin - v0;
+
+    // Calculate U
+    u = dot(T, P) * inv_det;
+    if (u < 0.0 || u > 1.0f)
+        return false;
+
+    float Q = cross(T, E1);
+
+    // Calculate V
+    v = dot(r.vDirection, Q) * inv_det;
+    if (v < 0.0 || u + v > 1.0f)
+        return false;
+
+    t = dot(E2, Q) * inv_det;
+
+    return true;
+}
+//*/
+
+///*
+bool IntersectTriangle_MT97(Ray r, float3 v0, float3 v1, float3 v2,
+    inout float t, inout float u, inout float v)
+{
+    // find vectors for two edges sharing vert0
+    float3 E1 = v1 - v0;
+    float3 E2 = v2 - v0;
+    // begin calculating determinant - also used to calculate U parameter
+    float3 P = cross(r.vDirection, E2);
+    // if determinant is near zero, ray lies in plane of triangle
+    float det = dot(E1, P);
+    // use backface culling
+    if (det < EPSILON)
+        return false;
+    float inv_det = 1.0f / det;
+    // calculate distance from vert0 to ray origin
+    float3 T = r.ptOrigin - v0;
+    // calculate U parameter and test bounds
+    u = dot(T, P) * inv_det;
+    if (u < 0.0 || u > 1.0f)
+        return false;
+    // prepare to test V parameter
+    float3 Q = cross(T, E1);
+    // calculate V parameter and test bounds
+    v = dot(r.vDirection, Q) * inv_det;
+    if (v < 0.0 || u + v > 1.0f)
+        return false;
+    // calculate t, ray intersects triangle
+    t = dot(E2, Q) * inv_det;
+    return true;
+}
+//*/
+
 float3x3 GetTangentSpace(float3 vNormal) {
     float3 vHelper = float3(1.0f, 0.0f, 0.0f);
     if (abs(vNormal.x) > 0.99f)
@@ -142,6 +214,25 @@ RayHit Trace(Ray r) {
     
     IntersectGroundPlane(r, bestHit);
 
+    // Trace single triangle
+    float3 v0 = float3(-150, 0, -150);
+    float3 v1 = float3(150, 0, -150);
+    float3 v2 = float3(0, 150 * sqrt(2), -150);
+    float t, u, v;
+
+    if (IntersectTriangle_MT97(r, v0, v1, v2, t, u, v)) {
+        if (t > 0 && t < bestHit.distance)
+        {
+            bestHit.distance = t;
+            bestHit.ptPosition = r.ptOrigin + t * r.vDirection;
+            bestHit.vNormal = normalize(cross(v1 - v0, v2 - v0));
+            bestHit.cAlbedo = 0.00f;
+            bestHit.cSpecular = 0.65f * float3(1, 0.4f, 0.2f);
+            bestHit.smoothness = 0.9f;
+            bestHit.cEmission = 0.0f;
+        }
+    }
+
     uint numSpheres, stride;
     _Spheres.GetDimensions(numSpheres, stride);
     for (uint i = 0; i < numSpheres; i++) {
@@ -192,19 +283,6 @@ float3 Shade(inout Ray r, RayHit hit) {
         }
 
         return hit.cEmission;
-
-        /*
-        // Check for Shadows 
-        bool fShadow = false;
-        Ray rShadow = CreateRay(hit.ptPosition + hit.vNormal * 0.001f, -1.0f * _DirectionalLight.xyz);
-        RayHit shadowHit = Trace(rShadow);
-        if (shadowHit.distance != 1.#INF)
-        {
-            return float3(0.0f, 0.0f, 0.0f);
-        }
-        
-        return saturate(dot(hit.vNormal, _DirectionalLight.xyz) * -1.0f) * _DirectionalLight.w * hit.cAlbedo;
-        //*/
     }
     else {        
         r.energy = 0.0f;
