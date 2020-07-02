@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 
@@ -23,6 +24,9 @@ public class RayTracingMaster : MonoBehaviour
 
     private ComputeBuffer _sphereBuffer;
 
+    private static bool m_fMeshObjectsNeedRebuilding = false;
+    private static List<RayTracingObject> m_rtObjects = new List<RayTracingObject>();
+
     struct Sphere
     {
         public Vector3 ptPosition;
@@ -31,6 +35,25 @@ public class RayTracingMaster : MonoBehaviour
         public Vector3 cSpecular;
         public float smoothness;
         public Vector3 cEmission;
+    }
+
+    struct MeshObject
+    {
+        public Matrix4x4 mat4LocalToWorld;
+        public int indices_offset;
+        public int indices_count;
+    }
+
+    private static List<MeshObject> m_meshObjects = new List<MeshObject>();
+    private static List<Vector3> m_Vertices = new List<Vector3>();
+    private static List<int> m_Indices = new List<int>();
+    private ComputeBuffer m_computerBufferMeshObject;
+    private ComputeBuffer m_computeBufferVertexBuffer;
+    private ComputeBuffer m_computeBufferIndexBuffer;
+
+    public static int SizeOf<T>()
+    {
+        return System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
     }
 
     private void OnEnable()
@@ -43,6 +66,89 @@ public class RayTracingMaster : MonoBehaviour
     {
         if (_sphereBuffer != null)
             _sphereBuffer.Release();
+    }
+
+    public static void RegisterObject(RayTracingObject rtObj)
+    {
+        m_rtObjects.Add(rtObj);
+        m_fMeshObjectsNeedRebuilding = true;
+    }
+
+    public static void UnregisterObject(RayTracingObject rtObj)
+    {
+        m_rtObjects.Remove(rtObj);
+        m_fMeshObjectsNeedRebuilding = true;
+    }
+
+    private void RebuildMeshObjectBuffers()
+    {
+        if (m_fMeshObjectsNeedRebuilding == false)
+            return;
+
+        m_fMeshObjectsNeedRebuilding = false;
+        m_currentSample = 0;
+
+        // Clear all
+        m_meshObjects.Clear();
+        m_Vertices.Clear();
+        m_Indices.Clear();
+
+        foreach(RayTracingObject rtObj in m_rtObjects)
+        {
+            Mesh mesh = rtObj.GetComponent<MeshFilter>().sharedMesh;
+
+            // Add vertex data to shared buffer
+            int firstVertex = m_Vertices.Count;
+            m_Vertices.AddRange(mesh.vertices);
+
+            // Add index data to the shared buffer
+            int firstIndex = m_Indices.Count;
+            var indices = mesh.GetIndices(0);
+            m_Indices.AddRange(indices.Select(index => index + firstVertex));
+
+            // Create a new Mesh Object and add it to the list
+            m_meshObjects.Add(new MeshObject()
+            {
+                mat4LocalToWorld = rtObj.transform.localToWorldMatrix,
+                indices_offset = firstIndex,
+                indices_count = indices.Length
+            });
+        }
+
+        // Compute Buffers
+        CreateComputeBuffer(ref m_computerBufferMeshObject, m_meshObjects, SizeOf<MeshObject>());
+        CreateComputeBuffer(ref m_computeBufferVertexBuffer, m_Vertices, SizeOf<Vector3>());
+        CreateComputeBuffer(ref m_computeBufferIndexBuffer, m_Indices, SizeOf<int>());
+    }
+
+    private static void CreateComputeBuffer<T>(ref ComputeBuffer rBuffer, List<T> data, int stride) where T : struct
+    {
+        if(rBuffer != null)
+        {
+            if(data.Count == 0 || rBuffer.count != data.Count || rBuffer.stride != stride)
+            {
+                rBuffer.Release();
+                rBuffer = null;
+            }
+        }
+
+        if(data.Count != 0)
+        {
+            if(rBuffer == null)
+            {
+                rBuffer = new ComputeBuffer(data.Count, stride);
+            }
+
+            rBuffer.SetData(data);
+        }
+    }
+
+    private void SetComputeBuffer(string strName, ComputeBuffer buffer)
+    {
+        if(buffer != null)
+        {
+            RayTracingShader.SetBuffer(0, strName, buffer);
+        }
     }
 
     private void SetUpScene()
@@ -94,7 +200,7 @@ public class RayTracingMaster : MonoBehaviour
         }
 
         // Assign to compute shader buffer
-        _sphereBuffer = new ComputeBuffer(spheres.Count, 56);   // WTFF
+        _sphereBuffer = new ComputeBuffer(spheres.Count, SizeOf<Sphere>());   // WTFF
         _sphereBuffer.SetData(spheres);
     }
 
@@ -128,14 +234,19 @@ public class RayTracingMaster : MonoBehaviour
         Vector3 l = DirectionalLight.transform.forward;
         RayTracingShader.SetVector("_DirectionalLight", new Vector4(l.x, l.y, l.z, DirectionalLight.intensity));
 
-        // Spheres
-        RayTracingShader.SetBuffer(0, "_Spheres", _sphereBuffer);
-
         RayTracingShader.SetFloat("_Seed", Random.value);
+
+        // Compute buffers
+        SetComputeBuffer("_Spheres", _sphereBuffer);
+        SetComputeBuffer("_MeshObjects", m_computerBufferMeshObject);
+        SetComputeBuffer("_Vertices", m_computeBufferVertexBuffer);
+        SetComputeBuffer("_Indices", m_computeBufferIndexBuffer);
     }
 
     private void OnRenderImage(RenderTexture srcTexture, RenderTexture destTexture)
     {
+        RebuildMeshObjectBuffers();
+
         SetShaderParameters();
         
         Render(destTexture);

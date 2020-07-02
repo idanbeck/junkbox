@@ -33,6 +33,16 @@ struct Sphere {
 
 StructuredBuffer<Sphere> _Spheres;
 
+struct MeshObject {
+    float4x4 mat4LocalToWorld;
+    int indices_offset;
+    int indices_count;
+};
+
+StructuredBuffer<MeshObject> _MeshObjects;
+StructuredBuffer<float3> _Vertices;
+StructuredBuffer<int> _Indices;
+
 Ray CreateRay(float3 ptOrigin, float3 vDirection) {
     Ray r;
     
@@ -77,7 +87,8 @@ float SmoothnessToPhongAlpha(float s) {
 }
 
 static const float EPSILON = 1e-8;
-/*
+
+
 // Moller-Trumbore Intersection implementation
 bool IntersectTriangle_MT97(Ray r, float3 v0, float3 v1, float3 v2,
     inout float t, inout float u, inout float v)
@@ -102,7 +113,7 @@ bool IntersectTriangle_MT97(Ray r, float3 v0, float3 v1, float3 v2,
     if (u < 0.0 || u > 1.0f)
         return false;
 
-    float Q = cross(T, E1);
+    float3 Q = cross(T, E1);
 
     // Calculate V
     v = dot(r.vDirection, Q) * inv_det;
@@ -113,40 +124,31 @@ bool IntersectTriangle_MT97(Ray r, float3 v0, float3 v1, float3 v2,
 
     return true;
 }
-//*/
 
-///*
-bool IntersectTriangle_MT97(Ray r, float3 v0, float3 v1, float3 v2,
-    inout float t, inout float u, inout float v)
-{
-    // find vectors for two edges sharing vert0
-    float3 E1 = v1 - v0;
-    float3 E2 = v2 - v0;
-    // begin calculating determinant - also used to calculate U parameter
-    float3 P = cross(r.vDirection, E2);
-    // if determinant is near zero, ray lies in plane of triangle
-    float det = dot(E1, P);
-    // use backface culling
-    if (det < EPSILON)
-        return false;
-    float inv_det = 1.0f / det;
-    // calculate distance from vert0 to ray origin
-    float3 T = r.ptOrigin - v0;
-    // calculate U parameter and test bounds
-    u = dot(T, P) * inv_det;
-    if (u < 0.0 || u > 1.0f)
-        return false;
-    // prepare to test V parameter
-    float3 Q = cross(T, E1);
-    // calculate V parameter and test bounds
-    v = dot(r.vDirection, Q) * inv_det;
-    if (v < 0.0 || u + v > 1.0f)
-        return false;
-    // calculate t, ray intersects triangle
-    t = dot(E2, Q) * inv_det;
-    return true;
+void IntersectMeshObject(Ray r, inout RayHit bestHit, MeshObject meshObject) {
+    uint offset = meshObject.indices_offset;
+    uint count = offset + meshObject.indices_count;
+    
+    for (uint i = offset; i < count; i += 3) {
+        float3 v0 = (mul(meshObject.mat4LocalToWorld, float4(_Vertices[_Indices[i]], 1.0f))).xyz;
+        float3 v1 = (mul(meshObject.mat4LocalToWorld, float4(_Vertices[_Indices[i + 1]], 1.0f))).xyz;
+        float3 v2 = (mul(meshObject.mat4LocalToWorld, float4(_Vertices[_Indices[i + 2]], 1.0f))).xyz;
+
+        float t, u, v;
+
+        if (IntersectTriangle_MT97(r, v0, v1, v2, t, u, v)) {
+            if (t > 0 && t < bestHit.distance) {
+                bestHit.distance = t;
+                bestHit.ptPosition = r.ptOrigin + t * r.vDirection;
+                bestHit.vNormal = normalize(cross(v1 - v0, v2 - v0));
+                bestHit.cAlbedo = 0.0f;
+                bestHit.cSpecular = 0.65f;
+                bestHit.smoothness = 0.99f;
+                bestHit.cEmission = 0.0f;
+            }
+        }
+    }
 }
-//*/
 
 float3x3 GetTangentSpace(float3 vNormal) {
     float3 vHelper = float3(1.0f, 0.0f, 0.0f);
@@ -210,7 +212,9 @@ void IntersectSphere(Ray r, inout RayHit bestHit, Sphere sphere) {
 }
 
 RayHit Trace(Ray r) {
+
     RayHit bestHit = CreateRayHit();
+    uint count, stride, i;
     
     IntersectGroundPlane(r, bestHit);
 
@@ -233,10 +237,14 @@ RayHit Trace(Ray r) {
         }
     }
 
-    uint numSpheres, stride;
-    _Spheres.GetDimensions(numSpheres, stride);
-    for (uint i = 0; i < numSpheres; i++) {
+    _Spheres.GetDimensions(count, stride);
+    for (i = 0; i < count; i++) {
         IntersectSphere(r, bestHit, _Spheres[i]);
+    }
+
+    _MeshObjects.GetDimensions(count, stride);
+    for (i = 0; i < count; i++) {
+        IntersectMeshObject(r, bestHit, _MeshObjects[i]);
     }
     
     return bestHit;
