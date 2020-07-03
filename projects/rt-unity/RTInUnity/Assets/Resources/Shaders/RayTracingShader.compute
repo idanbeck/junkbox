@@ -11,6 +11,10 @@ float4 _DirectionalLight;
 
 Texture2D<float4> _SkyboxTexture;
 SamplerState sampler_SkyboxTexture;
+
+Texture2D<float4> textureAlbedo;
+SamplerState samplertextureAlbedo;
+
 static const float PI = 3.14159265f;
 
 float2 _Pixel;
@@ -31,7 +35,6 @@ struct Sphere {
     float3 cEmission;
 };
 
-StructuredBuffer<Sphere> _Spheres;
 
 struct MeshObject {
     float4x4 mat4LocalToWorld;
@@ -39,8 +42,11 @@ struct MeshObject {
     int indices_count;
 };
 
+StructuredBuffer<Sphere> _Spheres;
 StructuredBuffer<MeshObject> _MeshObjects;
 StructuredBuffer<float3> _Vertices;
+StructuredBuffer<float3> _Normals;
+StructuredBuffer<float2> _UVs;
 StructuredBuffer<int> _Indices;
 
 Ray CreateRay(float3 ptOrigin, float3 vDirection) {
@@ -130,9 +136,21 @@ void IntersectMeshObject(Ray r, inout RayHit bestHit, MeshObject meshObject) {
     uint count = offset + meshObject.indices_count;
     
     for (uint i = offset; i < count; i += 3) {
+
+        // Vertices
         float3 v0 = (mul(meshObject.mat4LocalToWorld, float4(_Vertices[_Indices[i]], 1.0f))).xyz;
         float3 v1 = (mul(meshObject.mat4LocalToWorld, float4(_Vertices[_Indices[i + 1]], 1.0f))).xyz;
         float3 v2 = (mul(meshObject.mat4LocalToWorld, float4(_Vertices[_Indices[i + 2]], 1.0f))).xyz;
+
+        // Normals
+        float3 vNormal0 = (mul(meshObject.mat4LocalToWorld, float4(_Normals[_Indices[i]], 0.0f))).xyz;
+        float3 vNormal1 = (mul(meshObject.mat4LocalToWorld, float4(_Normals[_Indices[i + 1]], 0.0f))).xyz;
+        float3 vNormal2 = (mul(meshObject.mat4LocalToWorld, float4(_Normals[_Indices[i + 2]], 0.0f))).xyz;
+
+        // UVs
+        float2 uv0 = _UVs[i];
+        float2 uv1 = _UVs[i + 1];
+        float2 uv2 = _UVs[i + 2];
 
         float t, u, v;
 
@@ -140,11 +158,37 @@ void IntersectMeshObject(Ray r, inout RayHit bestHit, MeshObject meshObject) {
             if (t > 0 && t < bestHit.distance) {
                 bestHit.distance = t;
                 bestHit.ptPosition = r.ptOrigin + t * r.vDirection;
-                bestHit.vNormal = normalize(cross(v1 - v0, v2 - v0));
-                bestHit.cAlbedo = 0.0f;
-                bestHit.cSpecular = 0.65f;
-                bestHit.smoothness = 0.99f;
+
+                // Use u, v to interpolate normals
+                float r_2 = 1.0f - u - v;
+                bestHit.vNormal = vNormal1 * u + vNormal2 * v + vNormal0 * (r_2);
+
+                float2 uv = uv1 * u + 
+                            uv2 * v + 
+                            uv0 * (r_2);
+
+                float2 uv_p = float2(uv.x, uv.y);
+
+                bestHit.cAlbedo = textureAlbedo.SampleLevel(samplertextureAlbedo, uv_p, 0).xyz;
+                //bestHit.cAlbedo = float3(uv.x, uv.y, 0.0f);
+
+                //bestHit.cAlbedo = 0.0f;
+                //bestHit.cSpecular = 0.65f;
+                //bestHit.smoothness = 0.99f;
+                //bestHit.cEmission = 0.0f;
+                
+
+                // Diffuse
+                //bestHit.cAlbedo = float3(0.8f, 0.8f, 0.8f);
+                bestHit.cSpecular = 0.2f;
+                bestHit.smoothness = 0.5f;
                 bestHit.cEmission = 0.0f;
+
+                // Reflective
+                //bestHit.cAlbedo = 0.00f;
+                //bestHit.cSpecular = 0.65f;// *float3(1, 0.4f, 0.2f);
+                //bestHit.smoothness = 0.999f;
+                //bestHit.cEmission = 0.0f;
             }
         }
     }
@@ -181,9 +225,9 @@ void IntersectGroundPlane(Ray r, inout RayHit bestHit) {
         bestHit.distance = t;
         bestHit.ptPosition = r.ptOrigin + t * r.vDirection;
         bestHit.vNormal = float3(0.0f, 1.0f, 0.0f);
-        bestHit.cAlbedo = float3(0.8f, 0.8f, 0.8f);
-        bestHit.cSpecular = float3(0.1f, 0.1f, 0.1f);
-        bestHit.smoothness = 0.25f;
+        bestHit.cAlbedo = 0.5f;
+        bestHit.cSpecular = 0.03f;
+        bestHit.smoothness = 0.2f;
         bestHit.cEmission = float3(1.0f, 1.0f, 1.0f) * 0.0f;
     }
 }
@@ -218,29 +262,29 @@ RayHit Trace(Ray r) {
     
     IntersectGroundPlane(r, bestHit);
 
-    // Trace single triangle
-    float3 v0 = float3(-150, 0, -150);
-    float3 v1 = float3(150, 0, -150);
-    float3 v2 = float3(0, 150 * sqrt(2), -150);
-    float t, u, v;
+    //// Trace single triangle
+    //float3 v0 = float3(-150, 0, -150);
+    //float3 v1 = float3(150, 0, -150);
+    //float3 v2 = float3(0, 150 * sqrt(2), -150);
+    //float t, u, v;
+    //
+    //if (IntersectTriangle_MT97(r, v0, v1, v2, t, u, v)) {
+    //    if (t > 0 && t < bestHit.distance)
+    //    {
+    //        bestHit.distance = t;
+    //        bestHit.ptPosition = r.ptOrigin + t * r.vDirection;
+    //        bestHit.vNormal = normalize(cross(v1 - v0, v2 - v0));
+    //        bestHit.cAlbedo = 0.00f;
+    //        bestHit.cSpecular = 0.65f * float3(1, 0.4f, 0.2f);
+    //        bestHit.smoothness = 0.9f;
+    //        bestHit.cEmission = 0.0f;
+    //    }
+    //}
 
-    if (IntersectTriangle_MT97(r, v0, v1, v2, t, u, v)) {
-        if (t > 0 && t < bestHit.distance)
-        {
-            bestHit.distance = t;
-            bestHit.ptPosition = r.ptOrigin + t * r.vDirection;
-            bestHit.vNormal = normalize(cross(v1 - v0, v2 - v0));
-            bestHit.cAlbedo = 0.00f;
-            bestHit.cSpecular = 0.65f * float3(1, 0.4f, 0.2f);
-            bestHit.smoothness = 0.9f;
-            bestHit.cEmission = 0.0f;
-        }
-    }
-
-    _Spheres.GetDimensions(count, stride);
-    for (i = 0; i < count; i++) {
-        IntersectSphere(r, bestHit, _Spheres[i]);
-    }
+    //_Spheres.GetDimensions(count, stride);
+    //for (i = 0; i < count; i++) {
+    //    IntersectSphere(r, bestHit, _Spheres[i]);
+    //}
 
     _MeshObjects.GetDimensions(count, stride);
     for (i = 0; i < count; i++) {
@@ -298,7 +342,7 @@ float3 Shade(inout Ray r, RayHit hit) {
         float theta = acos(r.vDirection.y) / -PI;
         float phi = atan2(r.vDirection.x, -r.vDirection.z) / -PI * 0.5f;
         
-        return _SkyboxTexture.SampleLevel(sampler_SkyboxTexture, float2(phi, theta), 0).xyz * 2.0f; // brighten the skybox a bit
+        return _SkyboxTexture.SampleLevel(sampler_SkyboxTexture, float2(phi, theta), 0).xyz * 2.5f; // brighten the skybox a bit
     }
 }
 
