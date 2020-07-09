@@ -131,6 +131,43 @@ bool IntersectTriangle_MT97(Ray r, float3 v0, float3 v1, float3 v2,
     return true;
 }
 
+struct Quad {
+    float3 verts[4];
+    float2 uvs[4];
+};
+
+void IntersectQuad(Ray r, inout RayHit bestHit, Quad quadObject) {
+    
+    float2 uv, uv_p;
+    float t, u, v;
+    bool fHit = false;
+
+    if (IntersectTriangle_MT97(r, quadObject.verts[0], quadObject.verts[1], quadObject.verts[2], t, u, v)) {
+        uv = u * quadObject.uvs[1] + v * quadObject.uvs[2] + (1 - u - v) * quadObject.uvs[0];
+        fHit = true;
+    }
+    else if (IntersectTriangle_MT97(r, quadObject.verts[3], quadObject.verts[2], quadObject.verts[1], t, u, v)) {
+        uv = u * quadObject.uvs[2] + v * quadObject.uvs[1] + (1 - u - v) * quadObject.uvs[3];
+        fHit = true;
+    }
+
+    uv_p = float2(uv.x, uv.y);
+
+    if (fHit && t > 0 && t < bestHit.distance) {
+        bestHit.distance = t;
+        bestHit.ptPosition = r.ptOrigin + t * r.vDirection;
+        bestHit.vNormal = normalize(cross(quadObject.verts[1] - quadObject.verts[0], quadObject.verts[2] - quadObject.verts[0]));
+        //bestHit.cAlbedo = 0.00f;
+
+        float2 uv_p = float2(uv.x, uv.y);
+        bestHit.cAlbedo = textureAlbedo.SampleLevel(samplertextureAlbedo, uv_p, 0).xyz;
+
+        bestHit.cSpecular = 0.03f;
+        bestHit.smoothness = 0.05f;
+        bestHit.cEmission = 0.0f;
+    }
+}
+
 void IntersectMeshObject(Ray r, inout RayHit bestHit, MeshObject meshObject) {
     uint offset = meshObject.indices_offset;
     uint count = offset + meshObject.indices_count;
@@ -148,9 +185,9 @@ void IntersectMeshObject(Ray r, inout RayHit bestHit, MeshObject meshObject) {
         float3 vNormal2 = (mul(meshObject.mat4LocalToWorld, float4(_Normals[_Indices[i + 2]], 0.0f))).xyz;
 
         // UVs
-        float2 uv0 = _UVs[i];
-        float2 uv1 = _UVs[i + 1];
-        float2 uv2 = _UVs[i + 2];
+        float2 uv0 = _UVs[_Indices[i]];
+        float2 uv1 = _UVs[_Indices[i + 1]];
+        float2 uv2 = _UVs[_Indices[i + 2]];
 
         float t, u, v;
 
@@ -163,9 +200,7 @@ void IntersectMeshObject(Ray r, inout RayHit bestHit, MeshObject meshObject) {
                 float r_2 = 1.0f - u - v;
                 bestHit.vNormal = vNormal1 * u + vNormal2 * v + vNormal0 * (r_2);
 
-                float2 uv = uv1 * u + 
-                            uv2 * v + 
-                            uv0 * (r_2);
+                float2 uv = u* uv1 + v * uv2 + (r_2) * uv0;
 
                 float2 uv_p = float2(uv.x, uv.y);
 
@@ -180,7 +215,7 @@ void IntersectMeshObject(Ray r, inout RayHit bestHit, MeshObject meshObject) {
 
                 // Diffuse
                 //bestHit.cAlbedo = float3(0.8f, 0.8f, 0.8f);
-                bestHit.cSpecular = 0.2f;
+                bestHit.cSpecular = 0.03f;
                 bestHit.smoothness = 0.5f;
                 bestHit.cEmission = 0.0f;
 
@@ -290,6 +325,22 @@ RayHit Trace(Ray r) {
     for (i = 0; i < count; i++) {
         IntersectMeshObject(r, bestHit, _MeshObjects[i]);
     }
+
+    // Single Quad
+
+    Quad tempQuad;
+
+    tempQuad.verts[0] = float3(-10,  0, -10);      // BL
+    tempQuad.verts[1] = float3( 10,  0, -10);       // BR
+    tempQuad.verts[2] = float3(-10, 10, -10);    //TL
+    tempQuad.verts[3] = float3( 10, 10, -10);     // TR
+
+    tempQuad.uvs[0] = float2(1.0f, 0.0f);
+    tempQuad.uvs[1] = float2(0.0f, 0.0f);
+    tempQuad.uvs[2] = float2(1.0f, 1.0f);
+    tempQuad.uvs[3] = float2(0.0f, 1.0f);
+    
+    IntersectQuad(r, bestHit, tempQuad);
     
     return bestHit;
 }

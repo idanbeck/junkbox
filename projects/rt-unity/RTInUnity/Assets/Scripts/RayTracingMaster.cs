@@ -110,7 +110,11 @@ public class RayTracingMaster : MonoBehaviour
             int firstVertex = m_Vertices.Count;
             m_Vertices.AddRange(mesh.vertices);
             m_Normals.AddRange(mesh.normals);
-            m_UVs.AddRange(mesh.uv);
+
+            List<Vector2> objUVs = new List<Vector2>();
+            mesh.GetUVs(0, objUVs);
+
+            m_UVs.AddRange(objUVs);
 
             // Add index data to the shared buffer
             int firstIndex = m_Indices.Count;
@@ -242,7 +246,11 @@ public class RayTracingMaster : MonoBehaviour
 
         // Textures 
         RayTracingShader.SetTexture(0, "_SkyboxTexture", SkyboxTexture);
-        RayTracingShader.SetTexture(0, "textureAlbedo", textureAlbedo);
+
+        if (textureAlbedo != null)
+        {
+            RayTracingShader.SetTexture(0, "textureAlbedo", textureAlbedo);
+        }
     }
 
     private void OnRenderImage(RenderTexture srcTexture, RenderTexture destTexture) {
