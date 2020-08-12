@@ -6,11 +6,11 @@ RUN apt-get install -y build-essential python3.6 python3-pip python3-dev
 
 RUN pip3 -q install --upgrade pip 
 
-RUN mkdir src
+RUN mkdir notebooks
 
-WORKDIR src/
+VOLUME ./notebooks /notebooks
 
-COPY . .
+COPY ./requirements.txt requirements.txt
 
 RUN pip3 install -r requirements.txt
 
@@ -22,6 +22,7 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/
 RUN chmod +x /usr/bin/tini
 ENTRYPOINT ["/usr/bin/tini", "--"]
 
-WORKDIR /src/notebooks
+WORKDIR /notebooks
 
-CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root"]
+#CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root"]
+CMD ["jupyter", "notebook", "--port=8888", "--ip=0.0.0.0", "--allow-root"]
