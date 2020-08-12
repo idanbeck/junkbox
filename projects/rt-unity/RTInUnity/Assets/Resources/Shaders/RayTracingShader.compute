@@ -16,6 +16,8 @@ Texture2D<float4> textureAlbedo;
 SamplerState samplertextureAlbedo;
 
 static const float PI = 3.14159265f;
+static const float EPSILON = 1e-8;
+static const float DIALECTRIC_EPSILON = 1e-3;
 
 float2 _Pixel;
 float _Seed;
@@ -65,8 +67,10 @@ struct RayHit {
     float3 vNormal;
     float3 cAlbedo;
     float3 cSpecular;
+    float3 cDialectric;
     float smoothness;
     float3 cEmission;
+    bool fFrontFace;
 };
 
 RayHit CreateRayHit() {
@@ -77,8 +81,10 @@ RayHit CreateRayHit() {
     h.vNormal = float3(0.0f, 0.0f, 0.0f);
     h.cAlbedo = float3(0.0f, 0.0f, 0.0f);
     h.cSpecular = float3(0.0f, 0.0f, 0.0f);
+    h.cDialectric = float3(0.0f, 0.0f, 0.0f);
     h.smoothness = 0.0f;
     h.cEmission = float3(0.0f, 0.0f, 0.0f);
+    h.fFrontFace = true;
 
     return h;
 }
@@ -92,7 +98,7 @@ float SmoothnessToPhongAlpha(float s) {
     return pow(1000.0f, s * s);
 }
 
-static const float EPSILON = 1e-8;
+
 
 
 // Moller-Trumbore Intersection implementation
@@ -157,14 +163,17 @@ void IntersectQuad(Ray r, inout RayHit bestHit, Quad quadObject) {
         bestHit.distance = t;
         bestHit.ptPosition = r.ptOrigin + t * r.vDirection;
         bestHit.vNormal = normalize(cross(quadObject.verts[1] - quadObject.verts[0], quadObject.verts[2] - quadObject.verts[0]));
+        bestHit.fFrontFace = dot(bestHit.vNormal, r.vDirection) < 0;
+
         //bestHit.cAlbedo = 0.00f;
 
         float2 uv_p = float2(uv.x, uv.y);
-        bestHit.cAlbedo = textureAlbedo.SampleLevel(samplertextureAlbedo, uv_p, 0).xyz;
+        //bestHit.cAlbedo = textureAlbedo.SampleLevel(samplertextureAlbedo, uv_p, 0).xyz;
+        bestHit.cAlbedo = 0.0f;
 
         bestHit.cSpecular = 0.03f;
         bestHit.smoothness = 0.05f;
-        bestHit.cEmission = 0.0f;
+        bestHit.cEmission = 1.0f;
     }
 }
 
@@ -199,6 +208,7 @@ void IntersectMeshObject(Ray r, inout RayHit bestHit, MeshObject meshObject) {
                 // Use u, v to interpolate normals
                 float r_2 = 1.0f - u - v;
                 bestHit.vNormal = vNormal1 * u + vNormal2 * v + vNormal0 * (r_2);
+                bestHit.fFrontFace = dot(bestHit.vNormal, r.vDirection) < 0;
 
                 float2 uv = u* uv1 + v * uv2 + (r_2) * uv0;
 
@@ -241,16 +251,7 @@ float3x3 GetTangentSpace(float3 vNormal) {
     return float3x3(vTangent, vBinormal, vNormal);
 }
 
-// alpha controls the amount of phong exponent in sampling
-float3 SampleHemisphere(float3 vNormal, float alpha) {
-    // Uniformly sample hemisphere direction
-    float cosTheta = pow(rand(), 1.0f / (alpha + 1.0f));
-    float sinTheta = sqrt(1.0f - cosTheta * cosTheta);
-    float phi = 2 * PI * rand();
-    float3 tangentSpaceDir = float3(cos(phi) * sinTheta, sin(phi) * sinTheta, cosTheta);
 
-    return mul(tangentSpaceDir, GetTangentSpace(vNormal));
-}
 
 void IntersectGroundPlane(Ray r, inout RayHit bestHit) {
     // Calculate distance along ray where the ground plane is intersected
@@ -260,6 +261,7 @@ void IntersectGroundPlane(Ray r, inout RayHit bestHit) {
         bestHit.distance = t;
         bestHit.ptPosition = r.ptOrigin + t * r.vDirection;
         bestHit.vNormal = float3(0.0f, 1.0f, 0.0f);
+        bestHit.fFrontFace = dot(bestHit.vNormal, r.vDirection) < 0;
         bestHit.cAlbedo = 0.5f;
         bestHit.cSpecular = 0.03f;
         bestHit.smoothness = 0.2f;
@@ -282,11 +284,20 @@ void IntersectSphere(Ray r, inout RayHit bestHit, Sphere sphere) {
     if (t > 0 && t < bestHit.distance) {
         bestHit.distance = t;
         bestHit.ptPosition = r.ptOrigin + r.vDirection * t;
-        bestHit.vNormal = normalize(bestHit.ptPosition - sphere.ptPosition);
+        
+        bestHit.vNormal = (bestHit.ptPosition - sphere.ptPosition) / sphere.radius;
+        bestHit.fFrontFace = dot(bestHit.vNormal, r.vDirection) < 0;
+        
+        if (bestHit.fFrontFace == false)
+            bestHit.vNormal *= -1.0f;
+
         bestHit.cAlbedo = sphere.cAlbedo;
         bestHit.cSpecular = sphere.cSpecular;
         bestHit.smoothness = sphere.smoothness;
         bestHit.cEmission = sphere.cEmission;
+
+        // 
+        bestHit.cDialectric = float3(1.0f, 1.0f, 1.0f);
     }
 }
 
@@ -326,21 +337,42 @@ RayHit Trace(Ray r) {
         IntersectMeshObject(r, bestHit, _MeshObjects[i]);
     }
 
+    // Hollow Sphere
+    Sphere tempSphere1;
+
+    tempSphere1.ptPosition = float3(0.0f, 4.0f, 0.0f);
+    tempSphere1.radius = 3.0f;
+    tempSphere1.cAlbedo = 0.0f;
+    tempSphere1.cSpecular = 1.0f;
+    tempSphere1.smoothness = 1.0f;
+    tempSphere1.cEmission = 0.0f;
+
+    Sphere tempSphere2;
+
+    tempSphere2.ptPosition = float3(0.0f, 4.0f, 0.0f);
+    tempSphere2.radius = -2.9f;
+    tempSphere2.cAlbedo = 0.0f;
+    tempSphere2.cSpecular = 1.0f;
+    tempSphere2.smoothness = 1.0f;
+    tempSphere2.cEmission = 0.0f;
+
+    IntersectSphere(r, bestHit, tempSphere1);
+    IntersectSphere(r, bestHit, tempSphere2);
+
     // Single Quad
-
     Quad tempQuad;
-
-    tempQuad.verts[0] = float3(-10,  0, -10);      // BL
-    tempQuad.verts[1] = float3( 10,  0, -10);       // BR
-    tempQuad.verts[2] = float3(-10, 10, -10);    //TL
-    tempQuad.verts[3] = float3( 10, 10, -10);     // TR
-
+    
+    tempQuad.verts[0] = float3(-5,  5, -2.5);      // BL
+    tempQuad.verts[1] = float3( 5,  5, -2.5);       // BR
+    tempQuad.verts[2] = float3(-5, 10, 2.5);    //TL
+    tempQuad.verts[3] = float3( 5, 10, 2.5);     // TR
+    
     tempQuad.uvs[0] = float2(1.0f, 0.0f);
     tempQuad.uvs[1] = float2(0.0f, 0.0f);
     tempQuad.uvs[2] = float2(1.0f, 1.0f);
     tempQuad.uvs[3] = float2(0.0f, 1.0f);
     
-    IntersectQuad(r, bestHit, tempQuad);
+    //IntersectQuad(r, bestHit, tempQuad);
     
     return bestHit;
 }
@@ -354,6 +386,23 @@ float energy(float3 c) {
     return dot(c, (1.0f / 3.0f));
 }
 
+// alpha controls the amount of phong exponent in sampling
+float3 SampleHemisphere(float3 vNormal, float alpha) {
+    // Uniformly sample hemisphere direction
+    float cosTheta = pow(rand(), 1.0f / (alpha + 1.0f));
+    float sinTheta = sqrt(1.0f - cosTheta * cosTheta);
+    float phi = 2 * PI * rand();
+    float3 tangentSpaceDir = float3(cos(phi) * sinTheta, sin(phi) * sinTheta, cosTheta);
+
+    return mul(tangentSpaceDir, GetTangentSpace(vNormal));
+}
+
+double schlick(double cosine, double ref_idx) {
+    double r0 = (1.0f - ref_idx) / (1.0f + ref_idx);
+    r0 = r0 * r0;
+    return r0 + (1.0f - r0) * pow((1.0f - cosine), 5.0f);
+}
+
 float3 Shade(inout Ray r, RayHit hit) {
    
     if (hit.distance < 1.#INF)
@@ -364,19 +413,50 @@ float3 Shade(inout Ray r, RayHit hit) {
         hit.cAlbedo = min(1.0f - hit.cSpecular, hit.cAlbedo);
         float specularChance = energy(hit.cSpecular); 
         float diffuseChance = energy(hit.cAlbedo);
+        float dialectricChance = energy(hit.cDialectric);
 
         float roulette = rand();
-        
-        if (roulette < specularChance) {
+
+        if (roulette < dialectricChance) {
+
+            // Refraction 
+            float etai_over_etat;
+            if (hit.fFrontFace == true) {
+                etai_over_etat = 1.0f / 1.7f;   // front
+            }
+            else {
+                etai_over_etat = 1.7f / 1.0f;   // back
+            }
+
+            // Account for TIR
+            float cos_theta = min(dot(-r.vDirection, hit.vNormal), 1.0f);
+            float sin_theta = sqrt(1.0f - cos_theta * cos_theta);
+            if (etai_over_etat * sin_theta > 1.0) {
+                r.vDirection = reflect(r.vDirection, hit.vNormal);
+            }
+            else {
+                double reflect_prob = schlick(cos_theta, etai_over_etat);
+                if (roulette < reflect_prob)
+                {
+                    r.vDirection = reflect(r.vDirection, hit.vNormal);
+                }
+                else {
+                    r.vDirection = refract(r.vDirection, hit.vNormal, etai_over_etat);
+                }
+            }
+        }
+        else if (specularChance > 0.0f && roulette < dialectricChance + specularChance) {
             // Specular
+
+            // Importance Sampling Reflection
             float alpha = SmoothnessToPhongAlpha(hit.smoothness);
             r.vDirection = SampleHemisphere(reflect(r.vDirection, hit.vNormal), alpha);
-            
-            float f = (alpha + 2.0f) / (alpha + 1.0f); 
 
+            float f = (alpha + 2.0f) / (alpha + 1.0f);
             r.energy *= (1.0f / specularChance) * hit.cSpecular * sdot(hit.vNormal, r.vDirection, f);
+            r.energy *= 0.9f;
         }
-        else if (diffuseChance > 0.0f && roulette < specularChance + diffuseChance) {
+        else if (diffuseChance > 0.0f && roulette < dialectricChance + specularChance + diffuseChance) {
             // Diffuse
             r.vDirection = SampleHemisphere(hit.vNormal, 1.0f);
             r.energy *= (1.0f / diffuseChance) * hit.cAlbedo;
@@ -384,6 +464,10 @@ float3 Shade(inout Ray r, RayHit hit) {
         else {
             r.energy = 0.0f; 
         }
+
+        // Move in direction of refraction/reflection by an epsilon amount so we don't get stuck forever
+        //r.ptOrigin = hit.ptPosition + r.vDirection * DIALECTRIC_EPSILON;
+        r.ptOrigin = hit.ptPosition + r.vDirection * DIALECTRIC_EPSILON;
 
         return hit.cEmission;
     }
@@ -393,7 +477,8 @@ float3 Shade(inout Ray r, RayHit hit) {
         float theta = acos(r.vDirection.y) / -PI;
         float phi = atan2(r.vDirection.x, -r.vDirection.z) / -PI * 0.5f;
         
-        return _SkyboxTexture.SampleLevel(sampler_SkyboxTexture, float2(phi, theta), 0).xyz * 2.5f; // brighten the skybox a bit
+        return _SkyboxTexture.SampleLevel(sampler_SkyboxTexture, float2(phi, theta), 0).xyz * 1.5f; // brighten the skybox a bit
+        //return 0;
     }
 }
 
@@ -433,6 +518,17 @@ void CSMain (uint3 id : SV_DispatchThreadID)
 
         if (!any(r.energy))
             break;
+    }
+
+    // Debugging - this means the ray got stuck
+    if (energy(r.energy) == 1.0) {
+        //result = float3(1.0f, 0.0f, 1.0f);
+    
+        float theta = acos(r.vDirection.y) / -PI;
+        float phi = atan2(r.vDirection.x, -r.vDirection.z) / -PI * 0.5f;
+    
+        result = _SkyboxTexture.SampleLevel(sampler_SkyboxTexture, float2(phi, theta), 0).xyz * 1.5f; // brighten the skybox a bit
+        //result = 0.0f;
     }
 
     Result[id.xy] = float4(result, 1.0f); 

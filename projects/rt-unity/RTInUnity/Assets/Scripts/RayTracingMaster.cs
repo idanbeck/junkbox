@@ -228,7 +228,9 @@ public class RayTracingMaster : MonoBehaviour
     private void SetShaderParameters() {
         RayTracingShader.SetMatrix("mat4CameraToWorld", m_camera.cameraToWorldMatrix);
         RayTracingShader.SetMatrix("mat4InverseCameraProjection", m_camera.projectionMatrix.inverse);
+        
         RayTracingShader.SetVector("_PixelOffset", new Vector2(Random.value, Random.value));
+        //RayTracingShader.SetVector("_PixelOffset", new Vector2(0.0f, 0.0f));
 
         // Lights
         Vector3 l = DirectionalLight.transform.forward;
