@@ -69,9 +69,9 @@ def policy_evaluation(P, nS, nA, policy, gamma=0.9, tol=1e-3):
 		for s in range(nS):
 			# Immediate Reward
 			a = policy[s]
-			prob, next_state, immediate_reward, fTerminal = P[s][a][0]
 
-			val_fn_new[s] = immediate_reward + (gamma * prob * value_function[next_state])
+			for (prob, next_state, immediate_reward, fTerminal) in P[s][a]:
+				val_fn_new[s] += immediate_reward + (gamma * prob * value_function[next_state])
 
 		stop_tolerance = np.linalg.norm((val_fn_new - value_function), 2)
 		value_function = val_fn_new.copy()
@@ -115,8 +115,8 @@ def policy_improvement(P, nS, nA, value_from_policy, policy, gamma=0.9):
 
 	for s in range(nS):
 		for a in range(nA):
-			prob, next_state, immediate_reward, fTerminal = P[s][a][0]
-			Q[s][a] = immediate_reward + (gamma * value_from_policy[next_state])
+			for (prob, next_state, immediate_reward, fTerminal) in P[s][a]:
+				Q[s][a] += immediate_reward + (gamma * value_from_policy[next_state])
 
 	print(Q)
 
@@ -209,11 +209,10 @@ def value_iteration(P, nS, nA, gamma=0.9, tol=1e-3):
 		# Apply Bellman Operator per state
 
 		for s in range(nS):
-
 			for a in range(nA):
-				prob, next_state, immediate_reward, fTerminal = P[s][a][0]
-
-				val = immediate_reward + (gamma * prob * value_function[next_state])
+				val = 0.0
+				for (prob, next_state, immediate_reward, fTerminal) in P[s][a]:
+					val += immediate_reward + (gamma * prob * value_function[next_state])
 
 				if(val > val_fn_new[s]):
 					val_fn_new[s] = val
@@ -262,15 +261,15 @@ def render_single(env, policy, max_steps=100):
 if __name__ == "__main__":
 
 	# comment/uncomment these lines to switch between deterministic/stochastic environments
-	env = gym.make("Deterministic-4x4-FrozenLake-v0")
-	#env = gym.make("Stochastic-4x4-FrozenLake-v0")
+	#env = gym.make("Deterministic-4x4-FrozenLake-v0")
+	env = gym.make("Stochastic-4x4-FrozenLake-v0")
 	#env = gym.make("Deterministic-8x8-FrozenLake-v0")
 	#env = gym.make("Stochastic-8x8-FrozenLake-v0")
 
-	# print("\n" + "-"*25 + "\nBeginning Policy Iteration\n" + "-"*25)
-	#
-	# V_pi, p_pi = policy_iteration(env.P, env.nS, env.nA, gamma=0.9, tol=1e-3)
-	# render_single(env, p_pi, 100)
+	print("\n" + "-"*25 + "\nBeginning Policy Iteration\n" + "-"*25)
+
+	V_pi, p_pi = policy_iteration(env.P, env.nS, env.nA, gamma=0.9, tol=1e-3)
+	render_single(env, p_pi, 100)
 
 	print("\n" + "-"*25 + "\nBeginning Value Iteration\n" + "-"*25)
 
