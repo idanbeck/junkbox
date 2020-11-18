@@ -1,0 +1,18 @@
+2020-11-17 22:32:07,076:INFO: Making new env: CartPole-v0
+2020-11-17 22:32:07,087:INFO: Starting new video recorder writing to /mnt/c/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.1082.video000000.mp4
+2020-11-17 22:32:07,192:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/mnt/c/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-17 22:34:05,139:INFO: Making new env: CartPole-v0
+2020-11-17 22:34:05,147:INFO: Starting new video recorder writing to /mnt/c/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.1180.video000000.mp4
+2020-11-17 22:34:05,244:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/mnt/c/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-17 22:37:45,707:INFO: Making new env: CartPole-v0
+2020-11-17 22:37:45,715:INFO: Starting new video recorder writing to /mnt/c/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.1346.video000000.mp4
+2020-11-17 22:37:46,474:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/mnt/c/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-17 22:38:28,484:INFO: Making new env: CartPole-v0
+2020-11-17 22:38:28,490:INFO: Starting new video recorder writing to /mnt/c/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.1448.video000000.mp4
+2020-11-17 22:38:29,020:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/mnt/c/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 09:21:58,308:INFO: Making new env: CartPole-v0
+2020-11-18 09:21:58,318:INFO: Starting new video recorder writing to /mnt/c/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.1520.video000000.mp4
+2020-11-18 09:21:59,339:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/mnt/c/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 10:51:43,938:INFO: Making new env: CartPole-v0
+2020-11-18 10:51:43,949:INFO: Starting new video recorder writing to /mnt/c/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.1636.video000000.mp4
+2020-11-18 10:51:44,492:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/mnt/c/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')

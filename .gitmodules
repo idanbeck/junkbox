@@ -4,3 +4,9 @@
 [submodule "study/cs231n/gcloud"]
 	path = study/cs231n/gcloud
 	url = https://github.com/cs231n/gcloud.git
+[submodule "study/cs294/--init"]
+	path = study/cs294/--init
+	url = https://github.com/idanbeck/deepul
+[submodule "study/cs294/deepul"]
+	path = study/cs294/deepul
+	url = https://github.com/idanbeck/deepul
