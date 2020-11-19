@@ -73,15 +73,15 @@ class PG(object):
     #######################################################
     #########   YOUR CODE HERE - 4-6 lines.   ############
     
-    self.observation_placeholder = tf.placeholder(tf.float32, shape=[None, self.observation_dim])
+    self.observation_placeholder = tf.placeholder(tf.float32, shape=(None, self.observation_dim), name="obs")
 
     if self.discrete:
-      self.action_placeholder = tf.placeholder(tf.int32, shape=[None, ])
+      self.action_placeholder = tf.placeholder(tf.int32, shape=(None, ), name="act")
     else:
-      self.action_placeholder = tf.placeholder(tf.float32, shape=[None, self.action_dim])
+      self.action_placeholder = tf.placeholder(tf.float32, shape=(None, self.action_dim), name="act")
 
     # Advantage has the size of the Q function, or a state-action pair
-    self.advantage_placeholder = tf.placeholder(tf.float32, shape=[None, ])
+    self.advantage_placeholder = tf.placeholder(tf.float32, shape=(None, ), name="adv")
 
     #######################################################
     #########          END YOUR CODE.          ############
@@ -137,18 +137,20 @@ class PG(object):
     #######################################################
     #########   YOUR CODE HERE - 8-12 lines.   ############
 
-
     if self.discrete:
       action_logits = build_mlp(self.observation_placeholder, self.action_dim, scope, self.config.n_layers, self.config.layer_size, self.config.activation)
-      self.sampled_action = tf.squeeze(tf.multinomial(action_logits, 1))
+      #self.sampled_action = tf.squeeze(tf.multinomial(action_logits, 1))
+      self.sampled_action = tf.multinomial(action_logits, 1)
+      self.sampled_action = tf.reshape(self.sampled_action, [-1,])
       self.logprob = -tf.nn.sparse_softmax_cross_entropy_with_logits(labels=self.action_placeholder, logits=action_logits)
+
     else:
       action_means = build_mlp(self.observation_placeholder, self.action_dim, scope, self.config.n_layers, self.config.layer_size, self.config.activation)
-      log_std = tf.get_variable("log_std", shape=[1, self.action_dim])
+      log_std = tf.get_variable("log_std", [self.action_dim], dtype=tf.float32)
 
       # note, doing this with exp(log_std)
-      self.sampled_action = tf.random_normal([1,], mean=action_means, stddev=tf.math.exp(log_std))
-      self.logprob = tf.contrib.distributions.MultivariateNormalDiag(action_means, tf.math.exp(log_std))
+      self.sampled_action = tf.random_normal(shape=tf.shape(action_means), mean=action_means, stddev=tf.exp(log_std))
+      self.logprob = tf.contrib.distributions.MultivariateNormalDiag(loc=action_means, scale_diag=tf.exp(log_std)).log_prob(self.action_placeholder)
 
     #######################################################
     #########          END YOUR CODE.          ############
@@ -172,7 +174,7 @@ class PG(object):
     ######################################################
     #########   YOUR CODE HERE - 1-2 lines.   ############
     
-    self.loss = -tf.reduce_mean(self.logprob * self.advantage_placeholder)
+    self.loss = tf.reduce_mean(-self.logprob * self.advantage_placeholder)
 
     #######################################################
     #########          END YOUR CODE.          ############
@@ -336,7 +338,12 @@ class PG(object):
 
       for step in range(self.config.max_ep_len):
         states.append(state)
+
+        # if(self.discrete):
+        #   action = self.sess.run(self.sampled_action, feed_dict={self.observation_placeholder : states[-1][None]})
+        # else:
         action = self.sess.run(self.sampled_action, feed_dict={self.observation_placeholder : states[-1][None]})[0]
+
         state, reward, done, info = env.step(action)
         actions.append(action)
         rewards.append(reward)
@@ -388,17 +395,27 @@ class PG(object):
       #######################################################
       #########   YOUR CODE HERE - 5-10 lines.   ############
 
-      returns = np.zeros_like(rewards)
+      path_returns = np.zeros_like(rewards)
       # g_T-1 is just equal to r_T-1
-      returns[-1] = rewards[-1]
+      path_returns[-1] = rewards[-1]
 
       # G_t = r_t + gamma * G_t+1
-      for i in reversed(len(rewards)):
-        returns[i] = rewards[i] + self.gamma * returns[i + 1]
+      for i in reversed(range(len(rewards) - 1)):
+        path_returns[i] = rewards[i] + self.config.gamma * path_returns[i + 1]
+
+      # path_returns = []
+      # episode_len = len(rewards)
+      # for time_step in range(episode_len):
+      #   tail_length = episode_len - time_step
+      #   gammas = np.logspace(0, tail_length, num=tail_length, base=self.config.gamma, endpoint=False)
+      #   return_t = np.multiply(rewards[time_step:],gammas)
+      #   return_t = return_t.sum()
+      #   path_returns.append(return_t)
 
       #######################################################
       #########          END YOUR CODE.          ############
-      all_returns.append(returns)
+      #all_returns.append(returns)
+      all_returns.append(path_returns)
     returns = np.concatenate(all_returns)
 
     return returns
@@ -419,8 +436,10 @@ class PG(object):
     """
     #######################################################
     #########   YOUR CODE HERE - 1-5 lines.   ############
+    adv_mean = np.mean(advantages, axis=0)
+    adv_std = np.std(advantages, axis=0)
 
-    advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-12)
+    advantages = (advantages - adv_mean) / (adv_std + 1e-7)
     
     #######################################################
     #########          END YOUR CODE.          ############

@@ -16,3 +16,289 @@
 2020-11-18 10:51:43,938:INFO: Making new env: CartPole-v0
 2020-11-18 10:51:43,949:INFO: Starting new video recorder writing to /mnt/c/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.1636.video000000.mp4
 2020-11-18 10:51:44,492:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/mnt/c/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 12:55:56,744:INFO: Making new env: CartPole-v0
+2020-11-18 12:55:56,746:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.63405.video000000.mp4
+2020-11-18 12:55:56,753:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 12:56:46,583:INFO: Making new env: CartPole-v0
+2020-11-18 12:56:46,584:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.63558.video000000.mp4
+2020-11-18 12:56:46,590:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 12:57:04,505:INFO: Making new env: CartPole-v0
+2020-11-18 12:57:04,507:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.63621.video000000.mp4
+2020-11-18 12:57:15,726:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:30:44,941:INFO: Making new env: CartPole-v0
+2020-11-18 21:30:44,944:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.88184.video000000.mp4
+2020-11-18 21:30:47,344:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:35:12,261:INFO: Making new env: CartPole-v0
+2020-11-18 21:35:12,263:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.88960.video000000.mp4
+2020-11-18 21:35:13,226:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:37:10,512:INFO: Making new env: CartPole-v0
+2020-11-18 21:37:10,513:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.89282.video000000.mp4
+2020-11-18 21:37:11,255:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:39:05,338:INFO: Making new env: CartPole-v0
+2020-11-18 21:39:05,340:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.89596.video000000.mp4
+2020-11-18 21:39:06,218:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:41:25,340:INFO: Making new env: CartPole-v0
+2020-11-18 21:41:25,341:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.89964.video000000.mp4
+2020-11-18 21:41:26,084:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:46:21,770:INFO: Making new env: CartPole-v0
+2020-11-18 21:46:21,771:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.90725.video000000.mp4
+2020-11-18 21:46:22,629:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:47:26,723:INFO: Making new env: CartPole-v0
+2020-11-18 21:47:26,724:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.90903.video000000.mp4
+2020-11-18 21:47:27,471:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:47:53,210:INFO: Making new env: CartPole-v0
+2020-11-18 21:47:53,212:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.91004.video000000.mp4
+2020-11-18 21:47:53,947:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:49:14,428:INFO: Making new env: CartPole-v0
+2020-11-18 21:49:14,430:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.91216.video000000.mp4
+2020-11-18 21:49:15,182:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:50:48,502:INFO: Making new env: CartPole-v0
+2020-11-18 21:50:48,504:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.91477.video000000.mp4
+2020-11-18 21:50:49,367:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:50:59,779:INFO: Making new env: CartPole-v0
+2020-11-18 21:50:59,781:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.91532.video000000.mp4
+2020-11-18 21:51:00,523:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:51:37,538:INFO: Making new env: CartPole-v0
+2020-11-18 21:51:37,540:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.91654.video000000.mp4
+2020-11-18 21:51:38,274:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:51:53,494:INFO: Making new env: CartPole-v0
+2020-11-18 21:51:53,495:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.91715.video000000.mp4
+2020-11-18 21:51:54,240:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:52:36,641:INFO: Making new env: CartPole-v0
+2020-11-18 21:52:36,643:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.91844.video000000.mp4
+2020-11-18 21:52:37,677:INFO: Average reward: 19.00 +/- 0.00
+2020-11-18 21:52:37,914:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:52:52,323:INFO: Making new env: CartPole-v0
+2020-11-18 21:52:52,324:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.91905.video000000.mp4
+2020-11-18 21:52:53,379:INFO: Average reward: 19.00 +/- 0.00
+2020-11-18 21:52:53,598:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:53:28,446:INFO: Making new env: CartPole-v0
+2020-11-18 21:53:28,447:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.92010.video000000.mp4
+2020-11-18 21:53:29,499:INFO: Average reward: 19.00 +/- 0.00
+2020-11-18 21:53:29,719:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:53:54,416:INFO: Making new env: CartPole-v0
+2020-11-18 21:53:54,417:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.92106.video000000.mp4
+2020-11-18 21:53:55,502:INFO: Average reward: 19.00 +/- 0.00
+2020-11-18 21:53:55,735:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:57:10,041:INFO: Making new env: CartPole-v0
+2020-11-18 21:57:10,042:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.92647.video000000.mp4
+2020-11-18 21:57:11,079:INFO: Average reward: 19.00 +/- 0.00
+2020-11-18 21:57:11,303:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:57:41,380:INFO: Making new env: CartPole-v0
+2020-11-18 21:57:41,381:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.92753.video000000.mp4
+2020-11-18 21:57:42,470:INFO: Average reward: 19.00 +/- 0.00
+2020-11-18 21:57:42,795:INFO: Average reward: 17.47 +/- 1.08
+2020-11-18 21:57:42,984:INFO: Average reward: 19.66 +/- 1.51
+2020-11-18 21:57:43,174:INFO: Average reward: 23.38 +/- 2.07
+2020-11-18 21:57:43,367:INFO: Average reward: 23.64 +/- 1.57
+2020-11-18 21:57:43,558:INFO: Average reward: 33.55 +/- 3.89
+2020-11-18 21:57:43,747:INFO: Average reward: 33.13 +/- 3.96
+2020-11-18 21:57:43,937:INFO: Average reward: 29.41 +/- 3.24
+2020-11-18 21:57:44,134:INFO: Average reward: 24.85 +/- 2.00
+2020-11-18 21:57:44,325:INFO: Average reward: 28.06 +/- 2.10
+2020-11-18 21:57:44,516:INFO: Average reward: 28.68 +/- 2.88
+2020-11-18 21:57:44,705:INFO: Average reward: 34.17 +/- 3.36
+2020-11-18 21:57:44,898:INFO: Average reward: 28.51 +/- 3.23
+2020-11-18 21:57:45,089:INFO: Average reward: 30.90 +/- 3.13
+2020-11-18 21:57:45,278:INFO: Average reward: 24.50 +/- 2.01
+2020-11-18 21:57:45,469:INFO: Average reward: 31.68 +/- 4.14
+2020-11-18 21:57:45,661:INFO: Average reward: 36.22 +/- 3.93
+2020-11-18 21:57:45,853:INFO: Average reward: 30.34 +/- 3.04
+2020-11-18 21:57:46,052:INFO: Average reward: 38.38 +/- 4.52
+2020-11-18 21:57:46,248:INFO: Average reward: 31.84 +/- 2.98
+2020-11-18 21:57:46,439:INFO: Average reward: 32.33 +/- 4.29
+2020-11-18 21:57:46,626:INFO: Average reward: 40.91 +/- 6.26
+2020-11-18 21:57:46,826:INFO: Average reward: 42.65 +/- 4.98
+2020-11-18 21:57:47,016:INFO: Average reward: 38.31 +/- 3.94
+2020-11-18 21:57:47,208:INFO: Average reward: 43.86 +/- 7.18
+2020-11-18 21:57:47,405:INFO: Average reward: 39.50 +/- 6.07
+2020-11-18 21:57:47,594:INFO: Average reward: 35.46 +/- 2.91
+2020-11-18 21:57:47,786:INFO: Average reward: 34.61 +/- 4.83
+2020-11-18 21:57:47,976:INFO: Average reward: 39.12 +/- 4.76
+2020-11-18 21:57:48,165:INFO: Average reward: 39.04 +/- 7.14
+2020-11-18 21:57:48,356:INFO: Average reward: 33.93 +/- 4.58
+2020-11-18 21:57:48,546:INFO: Average reward: 35.73 +/- 3.64
+2020-11-18 21:57:48,736:INFO: Average reward: 41.22 +/- 6.38
+2020-11-18 21:57:48,929:INFO: Average reward: 53.83 +/- 11.06
+2020-11-18 21:57:49,117:INFO: Average reward: 47.00 +/- 8.24
+2020-11-18 21:57:49,309:INFO: Average reward: 79.92 +/- 15.79
+2020-11-18 21:57:49,498:INFO: Average reward: 76.00 +/- 16.37
+2020-11-18 21:57:49,689:INFO: Average reward: 103.89 +/- 19.31
+2020-11-18 21:57:49,880:INFO: Average reward: 128.29 +/- 14.23
+2020-11-18 21:57:50,070:INFO: Average reward: 136.71 +/- 16.39
+2020-11-18 21:57:50,260:INFO: Average reward: 150.50 +/- 20.00
+2020-11-18 21:57:50,450:INFO: Average reward: 143.17 +/- 16.30
+2020-11-18 21:57:50,639:INFO: Average reward: 166.00 +/- 24.33
+2020-11-18 21:57:50,828:INFO: Average reward: 186.60 +/- 11.76
+2020-11-18 21:57:51,017:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:57:51,207:INFO: Average reward: 181.00 +/- 16.99
+2020-11-18 21:57:51,396:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:57:51,584:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:57:51,773:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:57:51,963:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:57:52,154:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:57:52,344:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:57:52,535:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:57:52,723:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:57:52,913:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:57:53,102:INFO: Average reward: 180.40 +/- 17.53
+2020-11-18 21:57:53,300:INFO: Average reward: 187.80 +/- 10.91
+2020-11-18 21:57:53,493:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:57:53,700:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:57:53,894:INFO: Average reward: 177.80 +/- 19.86
+2020-11-18 21:57:54,084:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:57:54,272:INFO: Average reward: 182.20 +/- 11.89
+2020-11-18 21:57:54,465:INFO: Average reward: 163.33 +/- 6.92
+2020-11-18 21:57:54,652:INFO: Average reward: 145.50 +/- 22.28
+2020-11-18 21:57:54,843:INFO: Average reward: 152.00 +/- 8.59
+2020-11-18 21:57:55,032:INFO: Average reward: 132.00 +/- 6.46
+2020-11-18 21:57:55,219:INFO: Average reward: 130.29 +/- 5.56
+2020-11-18 21:57:55,408:INFO: Average reward: 113.75 +/- 7.77
+2020-11-18 21:57:55,596:INFO: Average reward: 117.62 +/- 3.59
+2020-11-18 21:57:55,783:INFO: Average reward: 113.50 +/- 8.03
+2020-11-18 21:57:55,971:INFO: Average reward: 118.25 +/- 2.21
+2020-11-18 21:57:56,158:INFO: Average reward: 108.11 +/- 8.37
+2020-11-18 21:57:56,344:INFO: Average reward: 119.88 +/- 8.67
+2020-11-18 21:57:56,535:INFO: Average reward: 113.00 +/- 3.78
+2020-11-18 21:57:56,723:INFO: Average reward: 96.60 +/- 8.41
+2020-11-18 21:57:56,913:INFO: Average reward: 114.12 +/- 3.86
+2020-11-18 21:57:57,103:INFO: Average reward: 103.56 +/- 8.14
+2020-11-18 21:57:57,291:INFO: Average reward: 95.60 +/- 7.06
+2020-11-18 21:57:57,482:INFO: Average reward: 115.38 +/- 4.12
+2020-11-18 21:57:57,675:INFO: Average reward: 122.62 +/- 3.44
+2020-11-18 21:57:57,862:INFO: Average reward: 127.86 +/- 6.75
+2020-11-18 21:57:58,051:INFO: Average reward: 127.43 +/- 4.99
+2020-11-18 21:57:58,242:INFO: Average reward: 126.43 +/- 5.10
+2020-11-18 21:57:58,431:INFO: Average reward: 130.00 +/- 4.00
+2020-11-18 21:57:58,620:INFO: Average reward: 138.43 +/- 4.15
+2020-11-18 21:57:58,812:INFO: Average reward: 138.29 +/- 4.91
+2020-11-18 21:57:59,003:INFO: Average reward: 148.83 +/- 9.37
+2020-11-18 21:57:59,199:INFO: Average reward: 154.83 +/- 9.83
+2020-11-18 21:57:59,389:INFO: Average reward: 146.33 +/- 5.03
+2020-11-18 21:57:59,580:INFO: Average reward: 141.17 +/- 8.14
+2020-11-18 21:57:59,772:INFO: Average reward: 178.80 +/- 8.12
+2020-11-18 21:57:59,963:INFO: Average reward: 155.67 +/- 6.43
+2020-11-18 21:58:00,155:INFO: Average reward: 166.33 +/- 10.37
+2020-11-18 21:58:00,345:INFO: Average reward: 163.00 +/- 11.30
+2020-11-18 21:58:00,537:INFO: Average reward: 164.00 +/- 10.41
+2020-11-18 21:58:00,728:INFO: Average reward: 191.20 +/- 3.79
+2020-11-18 21:58:00,921:INFO: Average reward: 181.60 +/- 5.60
+2020-11-18 21:58:01,110:INFO: Average reward: 188.00 +/- 5.42
+2020-11-18 21:58:01,298:INFO: Average reward: 180.60 +/- 12.39
+2020-11-18 21:58:01,487:INFO: Average reward: 193.20 +/- 6.08
+2020-11-18 21:58:01,677:INFO: Average reward: 199.40 +/- 0.54
+2020-11-18 21:58:01,677:INFO: - Training done.
+2020-11-18 21:58:01,834:INFO: Making new env: CartPole-v0
+2020-11-18 21:58:01,835:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.1.92753.video000000.mp4
+2020-11-18 21:58:05,300:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:58:05,327:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:58:05,360:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:58:50,750:INFO: Making new env: CartPole-v0
+2020-11-18 21:58:50,751:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.0.92959.video000000.mp4
+2020-11-18 21:58:51,886:INFO: Average reward: 19.00 +/- 0.00
+2020-11-18 21:58:52,177:INFO: Average reward: 17.47 +/- 1.08
+2020-11-18 21:58:52,370:INFO: Average reward: 19.66 +/- 1.51
+2020-11-18 21:58:52,560:INFO: Average reward: 23.38 +/- 2.07
+2020-11-18 21:58:52,753:INFO: Average reward: 23.64 +/- 1.57
+2020-11-18 21:58:52,955:INFO: Average reward: 33.55 +/- 3.89
+2020-11-18 21:58:53,152:INFO: Average reward: 33.13 +/- 3.96
+2020-11-18 21:58:53,343:INFO: Average reward: 29.41 +/- 3.24
+2020-11-18 21:58:53,534:INFO: Average reward: 24.85 +/- 2.00
+2020-11-18 21:58:53,724:INFO: Average reward: 28.06 +/- 2.10
+2020-11-18 21:58:53,916:INFO: Average reward: 28.68 +/- 2.88
+2020-11-18 21:58:54,108:INFO: Average reward: 34.17 +/- 3.36
+2020-11-18 21:58:54,298:INFO: Average reward: 28.51 +/- 3.23
+2020-11-18 21:58:54,491:INFO: Average reward: 30.90 +/- 3.13
+2020-11-18 21:58:54,683:INFO: Average reward: 24.50 +/- 2.01
+2020-11-18 21:58:54,877:INFO: Average reward: 31.68 +/- 4.14
+2020-11-18 21:58:55,068:INFO: Average reward: 36.22 +/- 3.93
+2020-11-18 21:58:55,263:INFO: Average reward: 30.34 +/- 3.04
+2020-11-18 21:58:55,455:INFO: Average reward: 38.38 +/- 4.52
+2020-11-18 21:58:55,647:INFO: Average reward: 31.84 +/- 2.98
+2020-11-18 21:58:55,839:INFO: Average reward: 32.33 +/- 4.29
+2020-11-18 21:58:56,030:INFO: Average reward: 40.91 +/- 6.26
+2020-11-18 21:58:56,221:INFO: Average reward: 42.65 +/- 4.98
+2020-11-18 21:58:56,415:INFO: Average reward: 38.31 +/- 3.94
+2020-11-18 21:58:56,606:INFO: Average reward: 43.86 +/- 7.18
+2020-11-18 21:58:56,798:INFO: Average reward: 39.50 +/- 6.07
+2020-11-18 21:58:56,990:INFO: Average reward: 35.46 +/- 2.91
+2020-11-18 21:58:57,183:INFO: Average reward: 34.61 +/- 4.83
+2020-11-18 21:58:57,375:INFO: Average reward: 39.12 +/- 4.76
+2020-11-18 21:58:57,568:INFO: Average reward: 39.04 +/- 7.14
+2020-11-18 21:58:57,759:INFO: Average reward: 33.93 +/- 4.58
+2020-11-18 21:58:57,950:INFO: Average reward: 35.73 +/- 3.64
+2020-11-18 21:58:58,143:INFO: Average reward: 41.22 +/- 6.38
+2020-11-18 21:58:58,334:INFO: Average reward: 53.83 +/- 11.06
+2020-11-18 21:58:58,529:INFO: Average reward: 47.00 +/- 8.24
+2020-11-18 21:58:58,720:INFO: Average reward: 79.92 +/- 15.79
+2020-11-18 21:58:58,911:INFO: Average reward: 76.00 +/- 16.37
+2020-11-18 21:58:59,102:INFO: Average reward: 103.89 +/- 19.31
+2020-11-18 21:58:59,298:INFO: Average reward: 128.29 +/- 14.23
+2020-11-18 21:58:59,490:INFO: Average reward: 136.71 +/- 16.39
+2020-11-18 21:58:59,684:INFO: Average reward: 150.50 +/- 20.00
+2020-11-18 21:58:59,876:INFO: Average reward: 143.17 +/- 16.30
+2020-11-18 21:59:00,068:INFO: Average reward: 166.00 +/- 24.33
+2020-11-18 21:59:00,260:INFO: Average reward: 186.60 +/- 11.76
+2020-11-18 21:59:00,452:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:59:00,647:INFO: Average reward: 181.00 +/- 16.99
+2020-11-18 21:59:00,840:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:59:01,033:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:59:01,225:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:59:01,417:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:59:01,610:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:59:01,812:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:59:02,010:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:59:02,203:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:59:02,394:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:59:02,586:INFO: Average reward: 180.40 +/- 17.53
+2020-11-18 21:59:02,781:INFO: Average reward: 187.80 +/- 10.91
+2020-11-18 21:59:02,978:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:59:03,171:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:59:03,363:INFO: Average reward: 177.80 +/- 19.86
+2020-11-18 21:59:03,556:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:59:03,746:INFO: Average reward: 182.20 +/- 11.89
+2020-11-18 21:59:03,942:INFO: Average reward: 163.33 +/- 6.92
+2020-11-18 21:59:04,136:INFO: Average reward: 145.50 +/- 22.28
+2020-11-18 21:59:04,328:INFO: Average reward: 152.00 +/- 8.59
+2020-11-18 21:59:04,522:INFO: Average reward: 132.00 +/- 6.46
+2020-11-18 21:59:04,717:INFO: Average reward: 130.29 +/- 5.56
+2020-11-18 21:59:04,911:INFO: Average reward: 113.75 +/- 7.77
+2020-11-18 21:59:05,106:INFO: Average reward: 117.62 +/- 3.59
+2020-11-18 21:59:05,300:INFO: Average reward: 113.50 +/- 8.03
+2020-11-18 21:59:05,495:INFO: Average reward: 118.25 +/- 2.21
+2020-11-18 21:59:05,688:INFO: Average reward: 108.11 +/- 8.37
+2020-11-18 21:59:05,881:INFO: Average reward: 119.88 +/- 8.67
+2020-11-18 21:59:06,074:INFO: Average reward: 113.00 +/- 3.78
+2020-11-18 21:59:06,269:INFO: Average reward: 96.60 +/- 8.41
+2020-11-18 21:59:06,464:INFO: Average reward: 114.12 +/- 3.86
+2020-11-18 21:59:06,657:INFO: Average reward: 103.56 +/- 8.14
+2020-11-18 21:59:06,851:INFO: Average reward: 95.60 +/- 7.06
+2020-11-18 21:59:07,045:INFO: Average reward: 115.38 +/- 4.12
+2020-11-18 21:59:07,241:INFO: Average reward: 122.62 +/- 3.44
+2020-11-18 21:59:07,434:INFO: Average reward: 127.86 +/- 6.75
+2020-11-18 21:59:07,628:INFO: Average reward: 127.43 +/- 4.99
+2020-11-18 21:59:07,822:INFO: Average reward: 126.43 +/- 5.10
+2020-11-18 21:59:08,015:INFO: Average reward: 130.00 +/- 4.00
+2020-11-18 21:59:08,207:INFO: Average reward: 138.43 +/- 4.15
+2020-11-18 21:59:08,400:INFO: Average reward: 138.29 +/- 4.91
+2020-11-18 21:59:08,593:INFO: Average reward: 148.83 +/- 9.37
+2020-11-18 21:59:08,787:INFO: Average reward: 154.83 +/- 9.83
+2020-11-18 21:59:08,981:INFO: Average reward: 146.33 +/- 5.03
+2020-11-18 21:59:09,173:INFO: Average reward: 141.17 +/- 8.14
+2020-11-18 21:59:09,366:INFO: Average reward: 178.80 +/- 8.12
+2020-11-18 21:59:09,562:INFO: Average reward: 155.67 +/- 6.43
+2020-11-18 21:59:09,756:INFO: Average reward: 166.33 +/- 10.37
+2020-11-18 21:59:09,948:INFO: Average reward: 163.00 +/- 11.30
+2020-11-18 21:59:10,142:INFO: Average reward: 164.00 +/- 10.41
+2020-11-18 21:59:10,335:INFO: Average reward: 191.20 +/- 3.79
+2020-11-18 21:59:10,529:INFO: Average reward: 181.60 +/- 5.60
+2020-11-18 21:59:10,722:INFO: Average reward: 188.00 +/- 5.42
+2020-11-18 21:59:10,913:INFO: Average reward: 180.60 +/- 12.39
+2020-11-18 21:59:11,106:INFO: Average reward: 193.20 +/- 6.08
+2020-11-18 21:59:11,298:INFO: Average reward: 199.40 +/- 0.54
+2020-11-18 21:59:11,298:INFO: - Training done.
+2020-11-18 21:59:11,435:INFO: Making new env: CartPole-v0
+2020-11-18 21:59:11,436:INFO: Starting new video recorder writing to /Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15/openaigym.video.1.92959.video000000.mp4
+2020-11-18 21:59:14,886:INFO: Average reward: 200.00 +/- 0.00
+2020-11-18 21:59:14,913:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
+2020-11-18 21:59:14,945:INFO: Finished writing results. You can upload them to the scoreboard via gym.upload('/Users/idanbeck/dev/junkbox/study/cs234/assignment3/starter_code/code/results/CartPole-v0-baseline-r_seed=15')
